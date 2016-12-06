@@ -16,6 +16,7 @@ encoded = Dense(encoding_dim, activation='relu')(input_img)
 decoded = Dense(784, activation='sigmoid')(encoded)
 autoencoder = Model(input=input_img, output=decoded)
 encoder = Model(input=input_img, output=encoded)
+autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 
 digits = datasets.load_digits()
 target_names = digits.target_names
@@ -50,3 +51,4 @@ encoded_imgs = encoder.predict(X_test)
 score = model.evaluate(X_test, Y_test, verbose=0)
 print('Test score:', score[0])
 print('Test accuracy:', score[1])
+
