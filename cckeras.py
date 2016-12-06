@@ -65,7 +65,7 @@ gs = GridSearchCV(clf, grid)
 gs.fit(encoded_imgs_train, y_train)
 y_pred = gs.predict(encoded_imgs)
 C = confusion_matrix(y_test, y_pred, labels=range(2))
-C
+print(C)
 print(np.diag(C) / map(float, np.sum(C,1)))
 
 fpr, tpr, _ = metrics.roc_curve(np.array(y_test), gs.predict_proba(encoded_imgs)[:,1])
@@ -82,5 +82,23 @@ plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
 plt.title('Receiver operating characteristic After AE')
 plt.legend(loc="lower right")
+plt.show()
+
+n = 10
+plt.figure(figsize=(20, 4))
+for i in range(n):
+    # display original
+    ax = plt.subplot(2, n, i)
+    plt.imshow(X_test[i].reshape(8, 8))
+    plt.gray()
+    ax.get_xaxis().set_visible(False)
+    ax.get_yaxis().set_visible(False)
+
+    # display reconstruction
+    ax = plt.subplot(2, n, i + n)
+    plt.imshow(encoded_imgs[i].reshape(4, 4))
+    plt.gray()
+    ax.get_xaxis().set_visible(False)
+    ax.get_yaxis().set_visible(False)
 plt.show()
 
