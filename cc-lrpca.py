@@ -44,7 +44,7 @@ grid = {
         'C': np.power(10.0, np.arange(-10, 10))
          , 'solver': ['newton-cg']
     }
-clf = LogisticRegression()#penalty='l2', random_state=777, max_iter=10000, tol=10)
+clf = LogisticRegression(penalty='l2', random_state=777, max_iter=10000, tol=10)
 gs = GridSearchCV(clf, grid)
 gn = GridSearchCV(clf, grid)
 gs.fit(X_train_pca, y_train)
