@@ -1,4 +1,5 @@
 from __future__ import print_function
+import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import datasets
 from sklearn.model_selection import GridSearchCV
@@ -8,6 +9,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from keras.layers import Input, Dense
 from keras.models import Model
+from sklearn import metrics
 
 # this is the size of our encoded representations number of pca
 encoding_dim = 16  # 32 floats -> compression of factor 24.5, assuming the input is 784 floats
@@ -63,5 +65,22 @@ gs = GridSearchCV(clf, grid)
 gs.fit(encoded_imgs_train, y_train)
 y_pred = gs.predict(encoded_imgs)
 C = confusion_matrix(y_test, y_pred, labels=range(2))
+C
 print(np.diag(C) / map(float, np.sum(C,1)))
+
+fpr, tpr, _ = metrics.roc_curve(np.array(y_test), gs.predict_proba(encoded_imgs)[:,1])
+roc_auc = metrics.auc(fpr, tpr)
+
+plt.figure()
+lw = 2
+plt.plot(fpr, tpr, color='darkorange',
+         lw=lw, label='ROC curve (area = %0.2f)' % roc_auc)
+plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver operating characteristic After AE')
+plt.legend(loc="lower right")
+plt.show()
 
