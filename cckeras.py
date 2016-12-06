@@ -1,7 +1,4 @@
-#Created on Tue Dec  6 12:06:36 2016
-
-#@author: elizabethheld
-#"""
+from __future__ import print_function
 import numpy as np
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
