@@ -55,6 +55,8 @@ y_pred = gn.predict(X_test)
 
 C = confusion_matrix(y_test, ypca_pred, labels=range(2))
 Cn = confusion_matrix(y_test, y_pred, labels=range(2))
+print(C)
+print(Cn)
 print(np.diag(C) / map(float, np.sum(C,1)))
 print(np.diag(Cn) / map(float, np.sum(Cn,1)))
 
