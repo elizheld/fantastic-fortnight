@@ -48,7 +48,16 @@ autoencoder.fit(X_train, X_train,
                 validation_data=(X_test, X_test))
                 
 encoded_imgs = encoder.predict(X_test)
-score = encoder.evaluate(X_test, y_test, verbose=0)
-print('Test score:', score[0])
-print('Test accuracy:', score[1])
+encoded_imgs_train = encoder.predict(X_train)
+
+grid = {
+        'C': np.power(10.0, np.arange(-10, 10))
+         , 'solver': ['newton-cg']
+    }
+clf = LogisticRegression()#penalty='l2', random_state=777, max_iter=10000, tol=10)
+gs = GridSearchCV(clf, grid)
+gs.fit(encoded_imgs_train, y_train)
+y_pred = gs.predict(encoded_imgs)
+C = confusion_matrix(y_test, y_pred, labels=range(2))
+print(np.diag(C) / map(float, np.sum(C,1)))
 
