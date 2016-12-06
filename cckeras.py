@@ -48,7 +48,7 @@ autoencoder.fit(X_train, X_train,
                 validation_data=(X_test, X_test))
                 
 encoded_imgs = encoder.predict(X_test)
-score = model.evaluate(X_test, Y_test, verbose=0)
+score = encoder.evaluate(X_test, Y_test, verbose=0)
 print('Test score:', score[0])
 print('Test accuracy:', score[1])
 
