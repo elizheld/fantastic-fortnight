@@ -10,6 +10,8 @@ from sklearn.model_selection import train_test_split
 from keras.layers import Input, Dense
 from keras.models import Model
 from sklearn import metrics
+import random 
+random.seed(14)
 
 # this is the size of our encoded representations number of pca
 encoding_dim = 16  # 32 floats -> compression of factor 24.5, assuming the input is 784 floats
