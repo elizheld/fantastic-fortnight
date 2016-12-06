@@ -55,6 +55,9 @@ X_test =X_test.astype('float32') / 255.
 X_train = X_train.reshape((len(X_train), np.prod(X_train.shape[1:])))
 X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
 
+X_train = np.reshape(X_train, (len(x_train), 1, 8, 8))
+X_test = np.reshape(X_test, (len(x_test), 1, 8, 8))
+
 autoencoder = Model(input_img, decoded)
 autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 autoencoder.fit(X_train, X_train,
