@@ -1,6 +1,10 @@
 from __future__ import print_function
 import numpy as np
 from sklearn import datasets
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from keras.layers import Input, Dense
 from keras.models import Model
