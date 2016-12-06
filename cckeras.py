@@ -39,8 +39,8 @@ X_train = X_train.astype('float32') / 255.
 X_test =X_test.astype('float32') / 255.
 X_train = X_train.reshape((len(X_train), np.prod(X_train.shape[1:])))
 X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
-print X_train.shape
-print X_test.shape
+print(X_train.shape)
+print(X_test.shape)
 #Now let's train our autoencoder for 50 epochs:
 
 autoencoder.fit(X_train, X_train,
