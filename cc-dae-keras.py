@@ -15,8 +15,6 @@ from keras.layers import Input, Dense, Convolution2D, MaxPooling2D, UpSampling2D
 from keras.models import Model
 random.seed(14)
 
-input_img = Input(shape=(1, 8, 8))
-
 digits = datasets.load_digits()
 target_names = digits.target_names
 
@@ -36,22 +34,15 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 X_train = X_train.astype('float32') / 255.
 X_test =X_test.astype('float32') / 255.
-#X_train = X_train.reshape((len(X_train), np.prod(X_train.shape[1:])))
-#X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
-X_train = np.reshape(X_train, (len(X_train), 1, 8, 8))
-X_test = np.reshape(X_test, (len(X_test), 1, 8, 8))
+X_train = X_train.reshape((len(X_train), np.prod(X_train.shape[1:])))
+X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
+input_img = Input(shape=(64,))
+encoded = Dense(32, activation='relu')(input_img)
+encoded = Dense(16, activation='relu')(encoded)
 
-
-
-input_img = Input(shape=(784,))
-encoded = Dense(128, activation='relu')(input_img)
-encoded = Dense(64, activation='relu')(encoded)
-encoded = Dense(32, activation='relu')(encoded)
-
-decoded = Dense(64, activation='relu')(encoded)
-decoded = Dense(128, activation='relu')(decoded)
-decoded = Dense(784, activation='sigmoid')(decoded)
-Let's try this:
+decoded = Dense(16, activation='relu')(encoded)
+decoded = Dense(32, activation='relu')(decoded)
+decoded = Dense(64, activation='sigmoid')(decoded)
 
 autoencoder = Model(input=input_img, output=decoded)
 autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
