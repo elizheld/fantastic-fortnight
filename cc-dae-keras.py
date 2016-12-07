@@ -53,6 +53,7 @@ autoencoder.fit(X_train, X_train,
                 shuffle=True,
                 validation_data=(X_test, X_test))
 #decoded_imgs = autoencoder.predict(x_test)
+encoder = Model(input=input_img, output=encoded)
 encoded_imgs = encoder.predict(X_test)
 encoded_imgs_train = encoder.predict(X_train)
 
