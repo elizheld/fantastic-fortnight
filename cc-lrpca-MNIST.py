@@ -32,7 +32,8 @@ for i in range(len(y_test)):
         
 y_test = y_test_round
 y_train = y_train_round
-
+h = 28
+w = 28
 n_components = 16
 print(np.shape(X_train), np.shape(X_test))
 # Build PCA
