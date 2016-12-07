@@ -68,7 +68,7 @@ X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
 
 #N Train our autoencoder for 100 epochs:
 autoencoder.fit(X_train, X_train,
-                nb_epoch=10,
+                nb_epoch=100,
                 batch_size=128,
                 shuffle=True,
                 validation_data=(X_test, X_test))
