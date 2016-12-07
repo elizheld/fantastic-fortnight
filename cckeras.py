@@ -19,7 +19,7 @@ encoding_dim = 16  # 32 floats -> compression of factor 24.5, assuming the input
 # this is our input placeholder
 input_img = Input(shape=(64,))
 # "encoded" is the encoded representation of the input
-encoded = Dense(encoding_dim, activation='relu')(input_img)
+encoded = Dense(encoding_dim, activation='sigmoid')(input_img)
 # "decoded" is the lossy reconstruction of the input
 decoded = Dense(64, activation='sigmoid')(encoded)
 autoencoder = Model(input=input_img, output=decoded)
