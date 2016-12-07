@@ -37,15 +37,15 @@ X_test =X_test.astype('float32') / 255.
 ##X_train = X_train.reshape((len(X_train), np.prod(X_train.shape[1:])))
 ##X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
 
-X_train = X_train.reshape((X_train.shape[0], 1, X_train.shape[1], X_train.shape[2]))
-X_test = X_test.reshape((X_test.shape[0], 1, X_test.shape[1], X_test.shape[2]))
+X_train = X_train.reshape((1, 1, X_train.shape[0], X_train.shape[1]))
+X_test = X_test.reshape((1, 1, X_test.shape[0], X_test.shape[1]))
 X_train -= np.mean(X_train)
 X_test -= np.mean(X_test)
 
 nb_filters=32
 nb_pool=2
 nb_conv=3
-d = Dense(64)
+d = Dense(16)
 c = Convolution2D(nb_filters, nb_conv, nb_conv, border_mode='same', input_shape=(1, 8, 8))
 mp =MaxPooling2D(pool_size=(nb_pool, nb_pool))
  # =========      ENCODER     ========================
