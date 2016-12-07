@@ -51,8 +51,7 @@ autoencoder.fit(X_train, X_train,
                 nb_epoch=50,
                 batch_size=128,
                 shuffle=True,
-                validation_data=(X_test, X_test),
-                callbacks=[TensorBoard(log_dir='/tmp/autoencoder')])
+                validation_data=(X_test, X_test))
 #decoded_imgs = autoencoder.predict(x_test)
 encoded_imgs = encoder.predict(X_test)
 encoded_imgs_train = encoder.predict(X_train)
