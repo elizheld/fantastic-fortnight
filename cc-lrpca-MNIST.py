@@ -15,9 +15,16 @@ from sklearn.decomposition import PCA
 import random
 random.seed(14)
 
-from keras.datasets import mnist
+from mnist import MNIST
 import numpy as np
-(X_train, y_train), (X_test, y_test) = mnist.load_data()
+
+mndata = MNIST('path_to_mnist')
+X_train, y_train = mndata.load_training()
+X_test, y_test = mndata.load_testing()
+
+X_train = np.array(X_train)
+X_test = np.array(X_test)
+
 # Change y_train, y_test so that digits 0-4 are 0 
 # and those 5-9 are 1
 y_train_round = [0] * len(y_train)
@@ -47,11 +54,11 @@ print(np.shape(X_train_pca))
 X_test_pca = pca.transform(X_test)
 print(np.shape(X_test_pca))
 
-nsamples, nx, ny = X_train_pca.shape
-X_train_pca = X_train_pca.reshape((nsamples,nx*ny))
+#nsamples, nx, ny = X_train_pca.shape
+#X_train_pca = X_train_pca.reshape((nsamples,nx*ny))
 
-nsamples_test, nx_test, ny_test = X_test_pca.shape
-X_test_pca = X_test_pca.reshape((nsamples_test,nx_test*ny_test))
+#nsamples_test, nx_test, ny_test = X_test_pca.shape
+#X_test_pca = X_test_pca.reshape((nsamples_test,nx_test*ny_test))
 # Train a LR classification model
 grid = {
         'C': np.power(10.0, np.arange(-10, 10))
