@@ -31,6 +31,7 @@ decoded = Dense(128, activation='sigmoid')(decoded)
 decoded = Dense(784, activation='sigmoid')(decoded)
 
 autoencoder = Model(input=input_img, output=decoded)
+encoder = Model(input=input_img, output=encoded)
 autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 
 (X_train, y_train), (X_test, y_test) = mnist.load_data()
@@ -67,7 +68,7 @@ X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
 
 #N Train our autoencoder for 100 epochs:
 autoencoder.fit(X_train, X_train,
-                nb_epoch=50,
+                nb_epoch=10,
                 batch_size=128,
                 shuffle=True,
                 validation_data=(X_test, X_test))
