@@ -97,4 +97,4 @@ def plot_gallery(images, h, w, n_row=3, n_col=4):
         plt.yticks(())
 
 plot_gallery(X_test, h, w)
-plot_gallery(encoded_imgs, h, w)
+plot_gallery(encoded_imgs, 4, 4)
