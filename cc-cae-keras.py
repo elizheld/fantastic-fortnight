@@ -63,7 +63,6 @@ decoded = Convolution2D(1, 4, 4, activation='sigmoid', border_mode='same')(x)
 autoencoder = Model(input_img, decoded)
 autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 
-tensorboard --logdir=/tmp/autoencoder
 from keras.callbacks import TensorBoard
 
 autoencoder.fit(X_train, X_train,
