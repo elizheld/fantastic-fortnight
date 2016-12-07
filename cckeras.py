@@ -22,8 +22,8 @@ encoding_dim = 16
 # this is our input placeholder
 input_img = Input(shape=(64,))
 # Build the Simple autoencoder with only one hidden layer
-encoded = Dense(encoding_dim, activation='sigmoid')(input_img)
-decoded = Dense(64, activation='sigmoid')(encoded)
+encoded = Dense(encoding_dim, activation='relu')(input_img)
+decoded = Dense(64, activation='relu')(encoded)
 autoencoder = Model(input=input_img, output=decoded)
 encoder = Model(input=input_img, output=encoded)
 autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
