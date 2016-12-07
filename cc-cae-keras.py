@@ -37,8 +37,8 @@ X_test =X_test.astype('float32') / 255.
 ##X_train = X_train.reshape((len(X_train), np.prod(X_train.shape[1:])))
 ##X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
 
-X_train = X_train.reshape((1, 1, X_train.shape[0], X_train.shape[1]))
-X_test = X_test.reshape((1, 1, X_test.shape[0], X_test.shape[1]))
+X_train = X_train.reshape((1, X_train.shape[0], X_train.shape[1]))
+X_test = X_test.reshape((1, X_test.shape[0], X_test.shape[1]))
 X_train -= np.mean(X_train)
 X_test -= np.mean(X_test)
 
