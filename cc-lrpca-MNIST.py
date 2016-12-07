@@ -38,13 +38,14 @@ n_components = 16
 print(np.shape(X_train), np.shape(X_test))
 # Build PCA
 pca = RandomizedPCA(n_components=n_components).fit(X_train)
-
+print(pca)
 #pca_digits = pca.components_.reshape((n_components, h, w))
 
 # Transform using PCA
 X_train_pca = pca.transform(X_train)
+print(X_train_pca)
 X_test_pca = pca.transform(X_test)
-
+print(X_test_pca)
 # Train a LR classification model
 grid = {
         'C': np.power(10.0, np.arange(-10, 10))
