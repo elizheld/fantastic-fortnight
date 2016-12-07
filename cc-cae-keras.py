@@ -12,7 +12,7 @@ import random
 
 
 from keras.layers import Input, Dense, Convolution2D, MaxPooling2D, UpSampling2D
-from keras import models
+from keras import Model
 random.seed(14)
 
 input_img = Input(shape=(1, 8, 8))
@@ -82,18 +82,4 @@ C = confusion_matrix(y_test, y_pred, labels=range(2))
 print(C)
 print(np.diag(C) / map(float, np.sum(C,1)))
 
-fpr, tpr, _ = metrics.roc_curve(np.array(y_test), gs.predict_proba(encoded_imgs)[:,1])
-roc_auc = metrics.auc(fpr, tpr)
 
-plt.figure()
-lw = 2
-plt.plot(fpr, tpr, color='darkorange',
-         lw=lw, label='ROC curve (area = %0.2f)' % roc_auc)
-plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
-plt.xlim([0.0, 1.0])
-plt.ylim([0.0, 1.05])
-plt.xlabel('False Positive Rate')
-plt.ylabel('True Positive Rate')
-plt.title('Receiver operating characteristic After AE')
-plt.legend(loc="lower right")
-plt.show()
