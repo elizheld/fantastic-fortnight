@@ -17,24 +17,6 @@ random.seed(14)
 
 input_img = Input(shape=(1, 8, 8))
 
-x = Convolution2D(16, 2, 2, activation='relu', border_mode='same')(input_img)
-x = MaxPooling2D((2, 2), border_mode='same')(x)
-x = Convolution2D(8, 2, 2, activation='relu', border_mode='same')(x)
-x = MaxPooling2D((2, 2), border_mode='same')(x)
-x = Convolution2D(8, 2, 2, activation='relu', border_mode='same')(x)
-encoded = MaxPooling2D((2, 2), border_mode='same')(x)
-
-# at this point the representation is (8, 4, 4) i.e. 128-dimensional
-
-x = Convolution2D(8, 2, 2, activation='relu', border_mode='same')(encoded)
-x = UpSampling2D((2, 2))(x)
-x = Convolution2D(8, 2, 2, activation='relu', border_mode='same')(x)
-x = UpSampling2D((2, 2))(x)
-x = Convolution2D(16, 2, 2, activation='relu')(x)
-x = UpSampling2D((2, 2))(x)
-decoded = Convolution2D(1, 4, 4, activation='sigmoid', border_mode='same')(x)
-
-
 digits = datasets.load_digits()
 target_names = digits.target_names
 
@@ -55,19 +37,43 @@ X_test =X_test.astype('float32') / 255.
 ##X_train = X_train.reshape((len(X_train), np.prod(X_train.shape[1:])))
 ##X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
 
-X_train = np.reshape(X_train, (len(X_train), 1, 8, 8))
-X_test = np.reshape(X_test, (len(X_test), 1, 8, 8))
+X_train = X_train.reshape((X_train.shape[0], 1, X_train.shape[1], X_train.shape[2]))
+X_test = X_test.reshape((X_test.shape[0], 1, X_test.shape[1], X_test.shape[2]))
+X_train -= np.mean(X_train)
+X_test -= np.mean(X_test)
 
-autoencoder = Model(input_img, decoded)
-autoencoder.compile(optimizer='adadelta', loss='sparse_categorical_crossentropy')
-autoencoder.fit(X_train, X_train,
+nb_filters=32
+nb_pool=2
+nb_conv=3
+d = Dense(64)
+c = Convolution2D(nb_filters, nb_conv, nb_conv, border_mode='same', input_shape=(1, 8, 8))
+mp =MaxPooling2D(pool_size=(nb_pool, nb_pool))
+ # =========      ENCODER     ========================
+model.add(c)
+model.add(Activation('tanh'))
+model.add(mp)
+model.add(Dropout(0.25))
+# =========      BOTTLENECK     ======================
+model.add(Flatten())
+model.add(d)
+model.add(Activation('tanh'))
+ # =========      BOTTLENECK^-1   =====================
+model.add(DependentDense(nb_filters * 14 * 14, d))  
+model.add(Activation('tanh'))
+model.add(Reshape((nb_filters, 14, 14)))
+# =========      DECODER     =========================
+model.add(DePool2D(mp, size=(nb_pool, nb_pool)))
+model.add(Deconvolution2D(c, border_mode='same'))
+model.add(Activation('tanh'))
+model.compile(optimizer='adadelta', loss='sparse_categorical_crossentropy')
+model.fit(X_train, X_train,
                 nb_epoch=50,
                 batch_size=128,
                 shuffle=True,
                 validation_data=(X_test, X_test))
 #decoded_imgs = autoencoder.predict(x_test)
-encoded_imgs = encoder.predict(X_test)
-encoded_imgs_train = encoder.predict(X_train)
+encoded_imgs = model.predict(X_test)
+encoded_imgs_train = model.predict(X_train)
 
 grid = {
         'C': np.power(10.0, np.arange(-10, 10))
