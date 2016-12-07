@@ -50,7 +50,7 @@ print(X_test.shape)
 #Now let's train our autoencoder for 50 epochs:
 
 autoencoder.fit(X_train, X_train,
-                nb_epoch=50,
+                nb_epoch=100,
                 batch_size=256,
                 shuffle=True,
                 validation_data=(X_test, X_test))
