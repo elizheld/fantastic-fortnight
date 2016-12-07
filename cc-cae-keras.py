@@ -27,7 +27,9 @@ for i in range(len(y_digits)):
     if y_digits[i]>4:
         y_digits_round[i] = 1
         
-n_samples, h, w = digits.images.shape          
+n_samples, h, w = digits.images.shape    
+print(h)
+print(w)
 
 X_train, X_test, y_train, y_test = train_test_split(
     X_digits, y_digits_round, test_size=0.25, random_state=42)
@@ -39,42 +41,34 @@ X_test =X_test.astype('float32') / 255.
 
 X_train = X_train.reshape((1, X_train.shape[0], X_train.shape[1]))
 X_test = X_test.reshape((1, X_test.shape[0], X_test.shape[1]))
-X_train -= np.mean(X_train)
-X_test -= np.mean(X_test)
 
-nb_filters=32
-nb_pool=2
-nb_conv=3
-d = Dense(16)
-c = Convolution2D(nb_filters, nb_conv, nb_conv, border_mode='same', input_shape=(1, 8, 8))
-mp =MaxPooling2D(pool_size=(nb_pool, nb_pool))
-model = models.Sequential()
- # =========      ENCODER     ========================
-model.add(c)
-model.add(Activation('tanh'))
-model.add(mp)
-model.add(Dropout(0.25))
-# =========      BOTTLENECK     ======================
-model.add(Flatten())
-model.add(d)
-model.add(Activation('tanh'))
- # =========      BOTTLENECK^-1   =====================
-model.add(DependentDense(nb_filters * 14 * 14, d))  
-model.add(Activation('tanh'))
-model.add(Reshape((nb_filters, 14, 14)))
-# =========      DECODER     =========================
-model.add(DePool2D(mp, size=(nb_pool, nb_pool)))
-model.add(Deconvolution2D(c, border_mode='same'))
-model.add(Activation('tanh'))
-model.compile(optimizer='adadelta', loss='sparse_categorical_crossentropy')
-model.fit(X_train, X_train,
+x = Convolution2D(8, 3, 2, activation='relu', border_mode='same')(input_img)
+x = MaxPooling2D((2, 2), border_mode='same')(x)
+x = Convolution2D(4, 3, 3, activation='relu', border_mode='same')(x)
+x = MaxPooling2D((2, 2), border_mode='same')(x)
+x = Convolution2D(4, 3, 3, activation='relu', border_mode='same')(x)
+encoded = MaxPooling2D((2, 2), border_mode='same')(x)
+
+# at this point the representation is (8, 4, 4) i.e. 128-dimensional
+
+x = Convolution2D(4, 3, 3, activation='relu', border_mode='same')(encoded)
+x = UpSampling2D((2, 2))(x)
+x = Convolution2D(4, 3, 3, activation='relu', border_mode='same')(x)
+x = UpSampling2D((2, 2))(x)
+x = Convolution2D(8, 3, 2, activation='relu')(x)
+x = UpSampling2D((2, 2))(x)
+decoded = Convolution2D(1, 4, 4, activation='sigmoid', border_mode='same')(x)
+
+autoencoder = Model(input_img, decoded)
+autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
+autoencoder.fit(X_train, X_train,
                 nb_epoch=50,
                 batch_size=128,
                 shuffle=True,
                 validation_data=(X_test, X_test))
 #decoded_imgs = autoencoder.predict(x_test)
-encoded_imgs = model.predict(X_test)
-encoded_imgs_train = model.predict(X_train)
+encoded_imgs = encoder.predict(X_test)
+encoded_imgs_train = encoder.predict(X_train)
 
 grid = {
         'C': np.power(10.0, np.arange(-10, 10))
