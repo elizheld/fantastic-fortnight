@@ -43,27 +43,18 @@ X_test = np.reshape(X_test, (len(X_test), 1, 8, 8))
 
 
 
-x = Convolution2D(8, 2, 2, activation='relu', border_mode='same')(input_img)
-x = MaxPooling2D((2, 2), border_mode='same')(x)
-x = Convolution2D(4, 3, 3, activation='relu', border_mode='same')(x)
-x = MaxPooling2D((2, 2), border_mode='same')(x)
-x = Convolution2D(4, 3, 3, activation='relu', border_mode='same')(x)
-encoded = MaxPooling2D((2, 2), border_mode='same')(x)
+input_img = Input(shape=(784,))
+encoded = Dense(128, activation='relu')(input_img)
+encoded = Dense(64, activation='relu')(encoded)
+encoded = Dense(32, activation='relu')(encoded)
 
-# at this point the representation is (8, 4, 4) i.e. 128-dimensional
+decoded = Dense(64, activation='relu')(encoded)
+decoded = Dense(128, activation='relu')(decoded)
+decoded = Dense(784, activation='sigmoid')(decoded)
+Let's try this:
 
-x = Convolution2D(4, 3, 3, activation='relu', border_mode='same')(encoded)
-x = UpSampling2D((2, 2))(x)
-x = Convolution2D(4, 3, 3, activation='relu', border_mode='same')(x)
-x = UpSampling2D((2, 2))(x)
-x = Convolution2D(8, 2, 2, activation='relu',border_mode='same')(x)
-x = UpSampling2D((2, 2))(x)
-decoded = Convolution2D(1, 3, 3, activation='sigmoid', border_mode='same')(x)
-
-autoencoder = Model(input_img, decoded)
+autoencoder = Model(input=input_img, output=decoded)
 autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
-
-from keras.callbacks import TensorBoard
 
 autoencoder.fit(X_train, X_train,
                 nb_epoch=50,
