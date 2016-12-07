@@ -48,6 +48,7 @@ nb_conv=3
 d = Dense(16)
 c = Convolution2D(nb_filters, nb_conv, nb_conv, border_mode='same', input_shape=(1, 8, 8))
 mp =MaxPooling2D(pool_size=(nb_pool, nb_pool))
+model = models.Sequential()
  # =========      ENCODER     ========================
 model.add(c)
 model.add(Activation('tanh'))
