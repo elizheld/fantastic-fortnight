@@ -53,7 +53,7 @@ X_test =X_test.astype('float32') / 255.
 X_train = X_train.reshape((len(X_train), np.prod(X_train.shape[1:])))
 X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
 
-#N Train our autoencoder for 50 epochs:
+#N Train our autoencoder for 100 epochs:
 autoencoder.fit(X_train, X_train,
                 nb_epoch=100,
                 batch_size=256,
@@ -71,7 +71,7 @@ grid = {
     }
 
 # Logistic Regression
-clf = LogisticRegression()#penalty='l2', random_state=777, max_iter=10000, tol=10)
+clf = LogisticRegression()#penalty='l2', random_state=42, max_iter=10000, tol=10)
 gs = GridSearchCV(clf, grid)
 
 # Fit the LR Model to the training data
