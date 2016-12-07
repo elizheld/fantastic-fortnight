@@ -1,6 +1,7 @@
-## Import packages and dependencies
-from __future__ import print_function
+##
 import numpy as np
+from keras.datasets import mnist
+
 import matplotlib.pyplot as plt
 
 from sklearn import linear_model, decomposition, datasets
@@ -15,12 +16,7 @@ from sklearn.decomposition import PCA
 import random
 random.seed(14)
 
-from mnist import MNIST
-import numpy as np
-
-mndata = MNIST('/Users/elizabethheld/anaconda/lib/python2.7/site-packages/mnist/')
-X_train, y_train = mndata.load_training()
-X_test, y_test = mndata.load_testing()
+(X_train, y_train), (X_test, y_test) = mnist.load_data()
 
 X_train = np.array(X_train)
 X_test = np.array(X_test)
@@ -43,10 +39,12 @@ h = 28
 w = 28
 n_components = 16
 print(np.shape(X_train), np.shape(X_test))
+X_train = X_train.reshape((60000,28*28))
+X_test = X_test.reshape((10000,28*28))
 # Build PCA
 pca = PCA(n_components=n_components, svd_solver='randomized',
           whiten=True).fit(X_train)
-#pca_digits = pca.components_.reshape((n_components, h, w))
+pca_digits = pca.components_.reshape((n_components, h, w))
 
 # Transform using PCA
 X_train_pca = pca.transform(X_train)
@@ -55,7 +53,7 @@ X_test_pca = pca.transform(X_test)
 print(np.shape(X_test_pca))
 
 #nsamples, nx, ny = X_train_pca.shape
-#X_train_pca = X_train_pca.reshape((nsamples,nx*ny))
+#_train_pca = X_train_pca.reshape((nsamples,nx*ny))
 
 #nsamples_test, nx_test, ny_test = X_test_pca.shape
 #X_test_pca = X_test_pca.reshape((nsamples_test,nx_test*ny_test))
@@ -69,19 +67,19 @@ gs = GridSearchCV(clf, grid)
 gn = GridSearchCV(clf, grid)
 # Fit LR
 gs.fit(X_train_pca, y_train)
-gn.fit(X_train, y_train)
+#gn.fit(X_train, y_train)
 
 # Predict
 ypca_pred = gs.predict(X_test_pca)
-y_pred = gn.predict(X_test)
+#y_pred = gn.predict(X_test)
 
 # Summarize results using confusion matrix
 C = confusion_matrix(y_test, ypca_pred, labels=range(2))
-Cn = confusion_matrix(y_test, y_pred, labels=range(2))
+#Cn = confusion_matrix(y_test, y_pred, labels=range(2))
 print(C)
-print(Cn)
+#print(Cn)
 print(np.diag(C) / map(float, np.sum(C,1)))
-print(np.diag(Cn) / map(float, np.sum(Cn,1)))
+#print(np.diag(Cn) / map(float, np.sum(Cn,1)))
 
 # Demonstrate the images before and after PCA transform
 # Function below was not written by me
