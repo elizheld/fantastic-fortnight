@@ -19,7 +19,7 @@ random.seed(14)
 # Choose the number of components for PCA 
 # Previous runs have shown that 85% of the 
 # variance is explained by the top 16 components
-encoding_dim = 59  
+encoding_dim = 64  
 
 # this is our input placeholder
 input_img = Input(shape=(784,))
@@ -51,7 +51,7 @@ y_test = y_test_round
 y_train = y_train_round
 h = 28
 w = 28
-n_components = 59
+n_components = 64
 print(np.shape(X_train), np.shape(X_test))
 X_train = X_train.reshape((60000,28*28))
 X_test = X_test.reshape((10000,28*28))
@@ -64,7 +64,7 @@ X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
 
 #N Train our autoencoder for 100 epochs:
 autoencoder.fit(X_train, X_train,
-                nb_epoch=100,
+                nb_epoch=50,
                 batch_size=256,
                 shuffle=True,
                 validation_data=(X_test, X_test))
@@ -80,7 +80,7 @@ grid = {
     }
 
 # Logistic Regression
-clf = LogisticRegression()#penalty='l2', random_state=42, max_iter=10000, tol=10)
+clf = LogisticRegression(penalty='l2', random_state=42, max_iter=10000, tol=10)
 gs = GridSearchCV(clf, grid)
 
 # Fit the LR Model to the training data
@@ -125,6 +125,6 @@ def plot_gallery(images, h, w, n_row=3, n_col=4):
 
 # Plot the images
 plot_gallery(X_test, h, w)
-plot_gallery(encoded_imgs, 4, 4)
+plot_gallery(encoded_imgs, 8, 8)
 
 plt.show()
