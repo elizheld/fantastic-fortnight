@@ -59,7 +59,7 @@ X_train = np.reshape(X_train, (len(X_train), 1, 8, 8))
 X_test = np.reshape(X_test, (len(X_test), 1, 8, 8))
 
 autoencoder = Model(input_img, decoded)
-autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
+autoencoder.compile(optimizer='adadelta', loss='sparse_categorical_crossentropy')
 autoencoder.fit(X_train, X_train,
                 nb_epoch=50,
                 batch_size=128,
