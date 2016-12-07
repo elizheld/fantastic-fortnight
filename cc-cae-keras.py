@@ -38,9 +38,10 @@ X_train = X_train.astype('float32') / 255.
 X_test =X_test.astype('float32') / 255.
 ##X_train = X_train.reshape((len(X_train), np.prod(X_train.shape[1:])))
 ##X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
+X_train = np.reshape(X_train, (len(X_train), 1, 8, 8))
+X_test = np.reshape(X_test, (len(X_test), 1, 8, 8))
 
-X_train = X_train.reshape((1, X_train.shape[0], X_train.shape[1]))
-X_test = X_test.reshape((1, X_test.shape[0], X_test.shape[1]))
+
 
 x = Convolution2D(8, 3, 2, activation='relu', border_mode='same')(input_img)
 x = MaxPooling2D((2, 2), border_mode='same')(x)
@@ -61,11 +62,16 @@ decoded = Convolution2D(1, 4, 4, activation='sigmoid', border_mode='same')(x)
 
 autoencoder = Model(input_img, decoded)
 autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
+
+tensorboard --logdir=/tmp/autoencoder
+from keras.callbacks import TensorBoard
+
 autoencoder.fit(X_train, X_train,
                 nb_epoch=50,
                 batch_size=128,
                 shuffle=True,
-                validation_data=(X_test, X_test))
+                validation_data=(X_test, X_test),
+                callbacks=[TensorBoard(log_dir='/tmp/autoencoder')])
 #decoded_imgs = autoencoder.predict(x_test)
 encoded_imgs = encoder.predict(X_test)
 encoded_imgs_train = encoder.predict(X_train)
