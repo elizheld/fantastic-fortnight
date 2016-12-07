@@ -52,11 +52,6 @@ print(np.shape(X_train_pca))
 X_test_pca = pca.transform(X_test)
 print(np.shape(X_test_pca))
 
-#nsamples, nx, ny = X_train_pca.shape
-#_train_pca = X_train_pca.reshape((nsamples,nx*ny))
-
-#nsamples_test, nx_test, ny_test = X_test_pca.shape
-#X_test_pca = X_test_pca.reshape((nsamples_test,nx_test*ny_test))
 # Train a LR classification model
 grid = {
         'C': np.power(10.0, np.arange(-10, 10))
@@ -67,19 +62,19 @@ gs = GridSearchCV(clf, grid)
 gn = GridSearchCV(clf, grid)
 # Fit LR
 gs.fit(X_train_pca, y_train)
-#gn.fit(X_train, y_train)
+gn.fit(X_train, y_train)
 
 # Predict
 ypca_pred = gs.predict(X_test_pca)
-#y_pred = gn.predict(X_test)
+y_pred = gn.predict(X_test)
 
 # Summarize results using confusion matrix
 C = confusion_matrix(y_test, ypca_pred, labels=range(2))
-#Cn = confusion_matrix(y_test, y_pred, labels=range(2))
+Cn = confusion_matrix(y_test, y_pred, labels=range(2))
 print(C)
-#print(Cn)
+print(Cn)
 print(np.diag(C) / map(float, np.sum(C,1)))
-#print(np.diag(Cn) / map(float, np.sum(Cn,1)))
+print(np.diag(Cn) / map(float, np.sum(Cn,1)))
 
 # Demonstrate the images before and after PCA transform
 # Function below was not written by me
@@ -100,6 +95,8 @@ plt.show()
 # Get FPR and TPR for ROC curve and AUC
 fpr, tpr, _ = metrics.roc_curve(np.array(y_test), gs.predict_proba(X_test_pca)[:,1])
 roc_auc = metrics.auc(fpr, tpr)
+fpr_n, tpr_n, _ = metrics.roc_curve(np.array(y_test), gn.predict_proba(X_test)[:,1])
+roc_auc_n = metrics.auc(fpr_n, tpr_n)
 
 # Plot the ROC curve
 plt.figure()
@@ -112,5 +109,18 @@ plt.ylim([0.0, 1.05])
 plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
 plt.title('Receiver operating characteristic after PCA')
+plt.legend(loc="lower right")
+plt.show()
+
+plt.figure()
+lw = 2
+plt.plot(fpr_n, tpr_n, color='darkorange',
+         lw=lw, label='ROC curve (area = %0.2f)' % roc_auc_n)
+plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver operating characteristic abefore PCA')
 plt.legend(loc="lower right")
 plt.show()
