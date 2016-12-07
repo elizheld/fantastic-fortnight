@@ -72,6 +72,7 @@ print(np.diag(C) / map(float, np.sum(C,1)))
 
 fpr, tpr, _ = metrics.roc_curve(np.array(y_test), gs.predict_proba(encoded_imgs)[:,1])
 roc_auc = metrics.auc(fpr, tpr)
+print(roc_auc)
 
 plt.figure()
 lw = 2
