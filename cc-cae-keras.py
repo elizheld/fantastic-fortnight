@@ -36,8 +36,8 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 X_train = X_train.astype('float32') / 255.
 X_test =X_test.astype('float32') / 255.
-##X_train = X_train.reshape((len(X_train), np.prod(X_train.shape[1:])))
-##X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
+#X_train = X_train.reshape((len(X_train), np.prod(X_train.shape[1:])))
+#X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
 X_train = np.reshape(X_train, (len(X_train), 1, 8, 8))
 X_test = np.reshape(X_test, (len(X_test), 1, 8, 8))
 
