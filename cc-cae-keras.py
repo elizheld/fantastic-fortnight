@@ -56,7 +56,7 @@ x = Convolution2D(4, 3, 3, activation='relu', border_mode='same')(encoded)
 x = UpSampling2D((2, 2))(x)
 x = Convolution2D(4, 3, 3, activation='relu', border_mode='same')(x)
 x = UpSampling2D((2, 2))(x)
-x = Convolution2D(8, 3, 2, activation='relu')(x)
+x = Convolution2D(8, 3, 2, activation='relu',border_mode='same')(x)
 x = UpSampling2D((2, 2))(x)
 decoded = Convolution2D(1, 4, 4, activation='sigmoid', border_mode='same')(x)
 
