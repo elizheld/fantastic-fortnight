@@ -18,7 +18,7 @@ random.seed(14)
 from mnist import MNIST
 import numpy as np
 
-mndata = MNIST('path_to_mnist')
+mndata = MNIST('/Users/elizabethheld/anaconda/lib/python2.7/site-packages/mnist/')
 X_train, y_train = mndata.load_training()
 X_test, y_test = mndata.load_testing()
 
