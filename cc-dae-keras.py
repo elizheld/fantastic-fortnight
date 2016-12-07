@@ -37,11 +37,11 @@ X_test =X_test.astype('float32') / 255.
 X_train = X_train.reshape((len(X_train), np.prod(X_train.shape[1:])))
 X_test = X_test.reshape((len(X_test), np.prod(X_test.shape[1:])))
 input_img = Input(shape=(64,))
-encoded = Dense(32, activation='relu')(input_img)
-encoded = Dense(16, activation='relu')(encoded)
+encoded = Dense(32, activation='sigmoid')(input_img)
+encoded = Dense(16, activation='sigmoid')(encoded)
 
-decoded = Dense(16, activation='relu')(encoded)
-decoded = Dense(32, activation='relu')(decoded)
+decoded = Dense(16, activation='sigmoid')(encoded)
+decoded = Dense(32, activation='sigmoid')(decoded)
 decoded = Dense(64, activation='sigmoid')(decoded)
 
 autoencoder = Model(input=input_img, output=decoded)
