@@ -11,7 +11,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
-from sklearn.decomposition import PCA
+from sklearn.decomposition import RandomizedPCA
 import random
 random.seed(14)
 
@@ -37,10 +37,9 @@ w = 28
 n_components = 16
 print(np.shape(X_train), np.shape(X_test))
 # Build PCA
-pca = PCA(n_components=n_components, svd_solver='randomized',
-          whiten=True).fit(X_train)
+pca = RandomizedPCA(n_components=n_components).fit(X_train)
 
-pca_digits = pca.components_.reshape((n_components, h, w))
+#pca_digits = pca.components_.reshape((n_components, h, w))
 
 # Transform using PCA
 X_train_pca = pca.transform(X_train)
