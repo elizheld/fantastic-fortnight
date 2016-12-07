@@ -37,7 +37,7 @@ y_test = y_test_round
 y_train = y_train_round
 h = 28
 w = 28
-n_components = 16
+n_components = 59
 print(np.shape(X_train), np.shape(X_test))
 X_train = X_train.reshape((60000,28*28))
 X_test = X_test.reshape((10000,28*28))
