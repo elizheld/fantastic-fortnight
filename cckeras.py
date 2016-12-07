@@ -87,21 +87,14 @@ plt.title('Receiver operating characteristic After AE')
 plt.legend(loc="lower right")
 plt.show()
 
-n = 10
-plt.figure(figsize=(20, 4))
-for i in range(n):
-    # display original
-    ax = plt.subplot(2, n, i)
-    plt.imshow(X_test[i].reshape(8, 8))
-    plt.gray()
-    ax.get_xaxis().set_visible(False)
-    ax.get_yaxis().set_visible(False)
+def plot_gallery(images, h, w, n_row=3, n_col=4):
+    plt.figure(figsize=(1.8 * n_col, 2.4 * n_row))
+    plt.subplots_adjust(bottom=0, left=.01, right=.99, top=.90, hspace=.35)
+    for i in range(n_row * n_col):
+        plt.subplot(n_row, n_col, i + 1)
+        plt.imshow(images[i].reshape((h, w)), cmap=plt.cm.gray)
+        plt.xticks(())
+        plt.yticks(())
 
-    # display reconstruction
-    ax = plt.subplot(2, n, i + n)
-    plt.imshow(encoded_imgs[i].reshape(4, 4))
-    plt.gray()
-    ax.get_xaxis().set_visible(False)
-    ax.get_yaxis().set_visible(False)
-plt.show()
-
+plot_gallery(X_test, h, w)
+plot_gallery(encoded_imgs, h, w)
