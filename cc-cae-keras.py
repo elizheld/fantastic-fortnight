@@ -12,7 +12,7 @@ import random
 
 
 from keras.layers import Input, Dense, Convolution2D, MaxPooling2D, UpSampling2D
-from keras import Model
+from keras.models import Model
 random.seed(14)
 
 input_img = Input(shape=(1, 8, 8))
