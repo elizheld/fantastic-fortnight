@@ -1,8 +1,7 @@
 from __future__ import absolute_import
 from __future__ import print_function
-from keras.layers import Input, Dense, Convolution2D, MaxPooling2D, UpSampling2D
+from keras.layers import Input
 from keras.models import Model
-
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.model_selection import GridSearchCV
@@ -18,21 +17,12 @@ from keras.layers.convolutional import Convolution2D, MaxPooling2D, UpSampling2D
 from keras.utils import np_utils
 
 random.seed(14)
-# apply a 3x3 convolution with 64 output filters on a 256x256 image:
-#model = Sequential()
-#model.add(Convolution2D(32, 5, 5, border_mode='same', input_shape=(1, 28, 28)))
-# now model.output_shape == (None, 64, 256, 256)
-#model.add(MaxPooling2D((2, 2), border_mode='same'))
-# add a 4x4 convolution on top, with 28 output filters:
 
 input_img = Input(shape=(1, 28, 28))
 
 x = Convolution2D(16, 3, 3, activation='relu', border_mode='same')(input_img)
 x = MaxPooling2D((2, 2), border_mode='same')(x)
 encoded = Convolution2D(8, 3, 3, activation='relu', border_mode='same')(x)
-#encoded = MaxPooling2D((2, 2), border_mode='same')(x)
-
-# at this point the representation is (8, 4, 4) i.e. 128-dimensional
 
 x = Convolution2D(28, 2, 2, activation='relu', border_mode='same')(encoded)
 decoded = UpSampling2D((1, 2))(x)
@@ -41,10 +31,6 @@ encoder = Model(input=input_img, output=encoded)
 autoencoder = Model(input_img, decoded)
 autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 autoencoder.summary()
-
-
-
-
 
 (X_train, y_train), (X_test, y_test) = mnist.load_data()
 X_train = np.reshape(X_train, (len(X_train), 1, 28, 28))
@@ -74,7 +60,7 @@ print(np.shape(X_train), np.shape(X_test))
 # More data cleaning and priming
 #N Train our autoencoder for 100 epochs:
 autoencoder.fit(X_train, X_train,
-                nb_epoch=1,
+                nb_epoch=50,
                 batch_size=256,
                 shuffle=True,
                 validation_data=(X_test, X_test))
@@ -141,9 +127,8 @@ def plot_gallery(images, h, w, n_row=3, n_col=4):
         plt.imshow(encoded_imgs[1].reshape((28, 28)), cmap=plt.cm.gray, interpolation='nearest')
         plt.xticks(())
         plt.yticks(())
-model.layers[-1]
+        
 # Plot the images
-#plot_gallery(X_test, h, w)
-#plot_gallery(encoded_imgs, 8, 8)
-
-#plt.show()
+plot_gallery(X_test, h, w)
+plot_gallery(encoded_imgs, 14, 8)
+plt.show()
