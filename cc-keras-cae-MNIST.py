@@ -83,13 +83,13 @@ autoencoder.fit(X_train, X_train,
 #X_test = X_test.reshape((10000,28*28))
 
 # Encoded the images for test and training set
-encoded_imgs = encoder.predict(X_train)
+encoded_imgs = encoder.predict(X_test)
 encoded_imgs_train = encoder.predict(X_train)
 
 encoded_imgs = encoded_imgs.reshape((10000,-1,112))
-encoded_imgs = encoded_imgs.reshape((-1,112)).shape
+encoded_imgs = encoded_imgs.reshape((-1,112))
 encoded_imgs_train = encoded_imgs_train.reshape((60000,-1,112))
-encoded_imgs_train = encoded_imgs_train.reshape((-1,112)).shape
+encoded_imgs_train = encoded_imgs_train.reshape((-1,112))
 
 
 # Construct a search grid for Logistic Regression Optimization
