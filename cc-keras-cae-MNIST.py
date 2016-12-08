@@ -12,18 +12,11 @@ from sklearn import metrics
 import random 
 from keras.datasets import mnist
 from keras.models import Sequential
-from keras.utils import np_utils
-from keras.datasets import mnist
-from keras.layers.core import Dense
-from keras.optimizers import RMSprop
-from keras.utils import np_utils
-from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers.convolutional import Convolution1D, MaxPooling1D
-from keras.layers.core import Layer
 from keras.layers.core import Layer, Dense, Dropout, Activation, Flatten, Reshape, Merge
 from keras.layers.convolutional import Convolution2D, MaxPooling2D, UpSampling2D, ZeroPadding2D
 from keras.utils import np_utils
-from keras import backend as K
+
 random.seed(14)
 # apply a 3x3 convolution with 64 output filters on a 256x256 image:
 #model = Sequential()
@@ -93,8 +86,10 @@ autoencoder.fit(X_train, X_train,
 encoded_imgs = encoder.predict(X_train)
 encoded_imgs_train = encoder.predict(X_train)
 
-encoded_imgs = encoded_imgs.reshape((60000,112))
-encoded_imgs_train = encoded_imgs_train.reshape((10000,112))
+encoded_imgs = encoded_imgs.reshape((10000,-1,112))
+encoded_imgs = encoded_imgs.reshape((-1,112)).shape
+encoded_imgs_train = encoded_imgs_train.reshape((60000,-1,112))
+encoded_imgs_train = encoded_imgs_train.reshape((-1,112)).shape
 
 
 # Construct a search grid for Logistic Regression Optimization
