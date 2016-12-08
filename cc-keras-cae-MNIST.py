@@ -93,7 +93,8 @@ autoencoder.fit(X_train, X_train,
 encoded_imgs = encoder.predict(X_train)
 encoded_imgs_train = encoder.predict(X_train)
 
-
+encoded_imgs = encoded_imgs.reshape((60000,112))
+encoded_imgs_train = encoded_imgs_train.reshape((10000,112))
 
 
 # Construct a search grid for Logistic Regression Optimization
