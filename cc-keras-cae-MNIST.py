@@ -82,7 +82,7 @@ clf = LogisticRegression(penalty='l2', random_state=42, max_iter=10000, tol=10)
 gs = GridSearchCV(clf, grid)
 
 # Fit the LR Model to the training data
-gs.fit(encoded_imgs_train[:1000,], y_train[:1000])
+gs.fit(encoded_imgs_train, y_train)
 # Predict 0,1 on encoded test data
 y_pred = gs.predict(encoded_imgs)
 # Compute confusion matrix to summarize results
