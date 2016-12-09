@@ -54,7 +54,7 @@ n_components = 64
 
 # More data cleaning and priming
 #N Train our autoencoder for 100 epochs:
-autoencoder.fit(X_train, X_train,
+history=autoencoder.fit(X_train, X_train,
                 nb_epoch=50,
                 batch_size=256,
                 shuffle=True,
@@ -113,18 +113,9 @@ plt.show()
 
 # Plot an example of what the digits look like before and 
 # After dimension reduction
-# This Function was based off block of code from another coder online
-def plot_gallery(images, h, w, n_row=3, n_col=4):
-    plt.figure(figsize=(1.8 * n_col, 2.4 * n_row))
-    plt.subplots_adjust(bottom=0, left=.01, right=.99, top=.90, hspace=.35)
-    for i in range(n_row * n_col):
-        plt.subplot(n_row, n_col, i + 1)
-        plt.imshow(encoded_imgs[1].reshape((28, 28)), cmap=plt.cm.gray, interpolation='nearest')
-        plt.xticks(())
-        plt.yticks(())
 
-# Plot the images
-plot_gallery(X_test, h, w)
-plot_gallery(encoded_imgs, 14, 8)
-
-plt.show()
+plt.figure()
+plt.title('Training performance')
+plt.plot(history.epoch, history.history['loss'], label='loss')
+plt.plot(history.epoch, history.history['val_loss'], label='val_loss')
+plt.legend()
