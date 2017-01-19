@@ -24,7 +24,7 @@ import numpy as np
 from keras.datasets import mnist
 random.seed(14)
 # Simulations
-N=2 # number of simulations
+N=1000 # number of simulations
 
 encoding_dim = 64  
 # this is our input placeholder
@@ -99,14 +99,11 @@ for i in range(N):
     # Predict 0,1 on encoded test data
     y_pred = gs.predict(encoded_imgs)
     # Compute confusion matrix to summarize results
-    C = confusion_matrix(y_test, y_pred, labels=range(2))
-    print(C)
-    print(np.diag(C) / map(float, np.sum(C,1)))
+    #C = confusion_matrix(y_test, y_pred, labels=range(2))
     
     # Calculate FPR and TPR for ROC and AUC
     fpr, tpr, _ = metrics.roc_curve(np.array(y_test), gs.predict_proba(encoded_imgs)[:,1])
     roc_auc = metrics.auc(fpr, tpr)
-    print(roc_auc)
     
     hold2[i] = roc_auc
 
