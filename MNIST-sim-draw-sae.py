@@ -24,7 +24,7 @@ import numpy as np
 from keras.datasets import mnist
 random.seed(14)
 # Simulations
-N=1000 # number of simulations
+N=20 # number of simulations
 
 encoding_dim = 64  
 # this is our input placeholder
@@ -75,8 +75,15 @@ for i in range(N):
     x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
     x_test =  x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
     #N Train our autoencoder for 100 epochs:
+    if i < 10:
+        autoencoder.fit(x_train, x_train,
+                    nb_epoch=5,
+                    batch_size=256,
+                    shuffle=True,
+                    validation_data=(x_test, x_test))
+    # else
     autoencoder.fit(x_train, x_train,
-                    nb_epoch=50,
+                    nb_epoch=3,
                     batch_size=256,
                     shuffle=True,
                     validation_data=(x_test, x_test))
@@ -100,12 +107,15 @@ for i in range(N):
     y_pred = gs.predict(encoded_imgs)
     # Compute confusion matrix to summarize results
     #C = confusion_matrix(y_test, y_pred, labels=range(2))
+    #print(C)
+    #print(np.diag(C) / map(float, np.sum(C,1)))
     
     # Calculate FPR and TPR for ROC and AUC
     fpr, tpr, _ = metrics.roc_curve(np.array(y_test), gs.predict_proba(encoded_imgs)[:,1])
     roc_auc = metrics.auc(fpr, tpr)
+    print(roc_auc)
+    print(i)
     
     hold2[i] = roc_auc
-
-print(hold2)
+    
 np.savetxt('sae-sim-hold.txt', hold2, delimiter=',')
