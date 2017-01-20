@@ -82,7 +82,8 @@ for i in range(N):
                     shuffle=True,
                     validation_data=(x_test, x_test))
     # else
-    autoencoder.fit(x_train, x_train,
+    else:
+        autoencoder.fit(x_train, x_train,
                     nb_epoch=3,
                     batch_size=256,
                     shuffle=True,
