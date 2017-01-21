@@ -6,21 +6,20 @@ Created on Thu Jan 19 16:38:02 2017
 """
 
 ## Import packages and dependencies
+from __future__ import absolute_import
 from __future__ import print_function
+from keras.layers import Input, Convolution2D, MaxPooling2D, UpSampling2D
+from keras.models import Model
+
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn import datasets
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
-from keras.layers import Input, Dense
-from keras.models import Model
 from sklearn import metrics
 import random 
-import numpy as np
 from keras.datasets import mnist
+
 random.seed(14)
 # Simulations
 N=1000 # number of simulations
