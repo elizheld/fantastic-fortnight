@@ -96,6 +96,7 @@ for i in range(N):
                     shuffle=True,
                     validation_data=(x_test, x_test))
     # Encoded the images for test and training set
+    encoder = Model(input=input_img, output=encoded)
     encoded_imgs = encoder.predict(x_test)
     encoded_imgs_train = encoder.predict(x_train)
 
