@@ -1,3 +1,11 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jan 23 12:41:03 2017
+
+@author: elizabethheld
+"""
+
 ## Import packages and dependencies
 from __future__ import print_function
 import matplotlib.pyplot as plt
@@ -34,12 +42,14 @@ target_names = digits.target_names
 X_digits = digits.data
 y_digits = digits.target
 
+y_digits_round = y_digits > 4
+y_digits_round = y_digits_round.astype('int')
 # Get total number of images and their dims recorded
 n_samples, h, w = digits.images.shape          
 
 # Split the data into testing and training data
-X_train, X_test, y_train, y_test = train_test_split(
-    X_digits, y_digits_round, test_size=0.25, random_state=42)
+X_train, X_test, Y_train, Y_test = train_test_split(X_digits, y_digits_round, test_size=0.25, random_state=42)
+
 
 # Get simulation indices
 n_train = N*len(X_train)
@@ -47,18 +57,13 @@ n_test = N*len(X_test)
 ind_train = np.random.choice(np.array([0,1]), size=n_train, p=[0.67,0.33]).reshape(N, len(X_train))
 ind_test =  np.random.choice(np.array([0,1]), size=n_test, p=[0.67,0.33]).reshape(N, len(X_test))
 
-# perform analyses for PCA 
+# perform analyses for sae
 hold2 = [0]*N
 for i in range(N):
     x_train = X_train[ind_train.astype('bool')[i,],]
     x_test = X_test[ind_test.astype('bool')[i,],]
     y_train = Y_train[ind_train.astype('bool')[i,],]
     y_test = Y_test[ind_test.astype('bool')[i,],]
-    
-    y_train = y_train > 4
-    y_train = y_train.astype('int')
-    y_test = y_test > 4 
-    y_test = y_test.astype('int')
     
     n_components = 16
     
@@ -115,5 +120,5 @@ for i in range(N):
     
     hold2[i] = roc_auc
     
-np.savetxt('sae-sim-hold.txt', hold2, delimiter=',')
 print(hold2)
+
