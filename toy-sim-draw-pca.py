@@ -25,7 +25,7 @@ random.seed(14)
 # Previous runs have shown that 85% of the 
 # variance is explained by the top 16 components
 encoding_dim = 16  
-N=20
+N=1000
 # this is our input placeholder
 # Load toy data
 digits = datasets.load_digits()
