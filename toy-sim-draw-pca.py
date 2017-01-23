@@ -55,7 +55,7 @@ n_train = N*len(X_train)
 n_test = N*len(X_test)
 ind_train = np.random.choice(np.array([0,1]), size=n_train, p=[0.67,0.33]).reshape(N, len(X_train))
 ind_test =  np.random.choice(np.array([0,1]), size=n_test, p=[0.67,0.33]).reshape(N, len(X_test))
-    n_components = 16
+n_components = 16
     
 # perform analyses for sae
 hold2 = [0]*N
