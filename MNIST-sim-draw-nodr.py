@@ -8,9 +8,8 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
 from sklearn import metrics
-from sklearn.decomposition import PCA
+from keras.datasets import mnist
 import random
 random.seed(14)
 
@@ -26,18 +25,12 @@ N=1000
 X_train = np.array(X_train)
 X_test = np.array(X_test)
 
-# Get simulation indices
-n_train = N*len(X_train)
-n_test = N*len(X_test)
-ind_train = np.random.choice(np.array([0,1]), size=n_train, p=[0.67,0.33]).reshape(N, len(X_train))
-ind_test =  np.random.choice(np.array([0,1]), size=n_test, p=[0.67,0.33]).reshape(N, len(X_test))
 
 # Get simulation indices
 n_train = N*len(X_train)
 n_test = N*len(X_test)
 ind_train = np.random.choice(np.array([0,1]), size=n_train, p=[0.67,0.33]).reshape(N, len(X_train))
 ind_test =  np.random.choice(np.array([0,1]), size=n_test, p=[0.67,0.33]).reshape(N, len(X_test))
-n_components = 16
     
 # perform analyses for sae
 hold2 = [0]*N
