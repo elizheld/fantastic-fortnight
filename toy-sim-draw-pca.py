@@ -25,16 +25,8 @@ random.seed(14)
 # Previous runs have shown that 85% of the 
 # variance is explained by the top 16 components
 encoding_dim = 16  
-N=1000
+N=20
 # this is our input placeholder
-input_img = Input(shape=(64,))
-# Build the Simple autoencoder with only one hidden layer
-encoded = Dense(encoding_dim, activation='relu')(input_img)
-decoded = Dense(64, activation='relu')(encoded)
-autoencoder = Model(input=input_img, output=decoded)
-encoder = Model(input=input_img, output=encoded)
-autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
-
 # Load toy data
 digits = datasets.load_digits()
 target_names = digits.target_names
