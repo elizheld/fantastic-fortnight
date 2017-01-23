@@ -31,8 +31,15 @@ autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 # Load toy data
 digits = datasets.load_digits()
 target_names = digits.target_names
-X_train = digits.data
-y_train = digits.target
+X_digits = digits.data
+y_digits = digits.target
+
+# Get total number of images and their dims recorded
+n_samples, h, w = digits.images.shape          
+
+# Split the data into testing and training data
+X_train, X_test, y_train, y_test = train_test_split(
+    X_digits, y_digits_round, test_size=0.25, random_state=42)
 
 # Get simulation indices
 n_train = N*len(X_train)
@@ -53,8 +60,6 @@ for i in range(N):
     y_test = y_test > 4 
     y_test = y_test.astype('int')
     
-    h = 8
-    w = 8
     n_components = 16
     
     x_train = x_train.reshape((len(x_train),8*8))
