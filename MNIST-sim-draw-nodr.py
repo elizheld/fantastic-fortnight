@@ -1,3 +1,11 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jan 23 15:59:55 2017
+
+@author: elizabethheld
+"""
+
 ## Import packages and dependencies
 from __future__ import print_function
 import matplotlib.pyplot as plt
@@ -39,6 +47,12 @@ for i in range(N):
     x_test = X_test[ind_test.astype('bool')[i,],]
     y_train = Y_train[ind_train.astype('bool')[i,],]
     y_test = Y_test[ind_test.astype('bool')[i,],]
+    x_train = x_train.reshape((len(x_train),28*28))
+    x_test = x_test.reshape((len(x_test),28*28))
+    y_train = y_train > 4
+    y_train = y_train.astype('int')
+    y_test = y_test > 4 
+    y_test = y_test.astype('int')
 
     # Train a LR classification model
     grid = {
