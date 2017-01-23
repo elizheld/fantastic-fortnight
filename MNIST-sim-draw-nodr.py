@@ -25,7 +25,7 @@ random.seed(14)
 # Previous runs have shown that 85% of the 
 # variance is explained by the top 16 components
 encoding_dim = 16  
-N=1000
+N=10
 # this is our input placeholder
 
 (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
