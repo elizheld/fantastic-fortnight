@@ -47,8 +47,8 @@ X_test = np.array(X_test)
 # Get simulation indices
 n_train = N*len(X_train)
 n_test = N*len(X_test)
-ind_train = np.random.choice(np.array([0,1]), size=n_train, p=[0.67,0.33]).reshape(N, len(X_train))
-ind_test =  np.random.choice(np.array([0,1]), size=n_test, p=[0.67,0.33]).reshape(N, len(X_test))
+ind_train = np.random.choice(np.array([0,1]), size=n_train, p=[0.9,0.1]).reshape(N, len(X_train))
+ind_test =  np.random.choice(np.array([0,1]), size=n_test, p=[0.9,0.1]).reshape(N, len(X_test))
     
 # perform analyses for PCA 
 hold2 = [0]*N
