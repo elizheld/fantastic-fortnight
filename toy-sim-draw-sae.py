@@ -54,8 +54,8 @@ X_train, X_test, Y_train, Y_test = train_test_split(X_digits, y_digits_round, te
 # Get simulation indices
 n_train = N*len(X_train)
 n_test = N*len(X_test)
-ind_train = np.random.choice(np.array([0,1]), size=n_train, p=[0.67,0.33]).reshape(N, len(X_train))
-ind_test =  np.random.choice(np.array([0,1]), size=n_test, p=[0.67,0.33]).reshape(N, len(X_test))
+ind_train = np.random.choice(np.array([0,1]), size=n_train, p=[0.9,0.1]).reshape(N, len(X_train))
+ind_test =  np.random.choice(np.array([0,1]), size=n_test, p=[0.9,0.1]).reshape(N, len(X_test))
 
 # perform analyses for sae
 hold2 = [0]*N
