@@ -92,4 +92,5 @@ for i in range(N):
     print(roc_auc)
     print(i)
     hold[i] = roc_auc
-    
+  
+print(hold)
