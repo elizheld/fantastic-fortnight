@@ -29,6 +29,17 @@ encoding_dims = np.linspace(1.0, 500.0, num=10).astype(int)
 hold = np.zeros((len(encoding_dims), N))
 # this is our input placeholder
 input_img = Input(shape=(784,))
+# Read in real data
+(X_train, Y_train), (X_test, Y_test) = mnist.load_data()
+    
+X_train = np.array(X_train)
+X_test = np.array(X_test)
+    
+    # Get simulation indices
+n_train = N*len(X_train)
+n_test = N*len(X_test)
+ind_train = np.random.choice(np.array([0,1]), size=n_train, p=[0.67,0.33]).reshape(N, len(X_train))
+ind_test =  np.random.choice(np.array([0,1]), size=n_test, p=[0.67,0.33]).reshape(N, len(X_test))
 
 for j in range(len(encoding_dims)):
     encoding_dim = encoding_dims[j]
@@ -38,18 +49,6 @@ for j in range(len(encoding_dims)):
     autoencoder = Model(input=input_img, output=decoded)
     encoder = Model(input=input_img, output=encoded)
     autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
-    
-    # Read in real data
-    (X_train, Y_train), (X_test, Y_test) = mnist.load_data()
-    
-    X_train = np.array(X_train)
-    X_test = np.array(X_test)
-    
-    # Get simulation indices
-    n_train = N*len(X_train)
-    n_test = N*len(X_test)
-    ind_train = np.random.choice(np.array([0,1]), size=n_train, p=[0.67,0.33]).reshape(N, len(X_train))
-    ind_test =  np.random.choice(np.array([0,1]), size=n_test, p=[0.67,0.33]).reshape(N, len(X_test))
         
     # perform analyses for PCA 
     hold2 = [0]*N
@@ -79,7 +78,7 @@ for j in range(len(encoding_dims)):
         #N Train our autoencoder for 100 epochs:
         if i < 10:
             autoencoder.fit(x_train, x_train,
-                        nb_epoch=50,
+                        nb_epoch=10,
                         batch_size=256,
                         shuffle=True,
                         validation_data=(x_test, x_test))
